@@ -1,17 +1,22 @@
-<h1><%= @list.name %></h1>
-<%= link_to "Add a movie", new_list_bookmark_path(@list) %>
-<hr>
-<% @list.bookmarks.each do |bookmark| %>
-  <%= link_to list_path(bookmark) do  %>
-  <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title"><%= bookmark.movie.title %></h5>
-      <p class="card-text"><%= bookmark.movie.overview %></p>
+<%= render 'banner', title: @list.name %>
+
+<div class="container">
+  <%= link_to "Add a movie", new_list_bookmark_path(@list) %>
+  <hr>
+  <div class="row">
+    <% @list.bookmarks.each do |bookmark| %>
+    <div class="col-12 col-md-4 col-lg-3">
+      <div class="card" style="width: 18rem;">
+        <%= image_tag bookmark.movie.poster_url %>
+        <div class="card-body">
+          <h5 class="card-title"><%= bookmark.movie.title %></h5>
+          <p class="card-text"><%= bookmark.movie.overview[0, 150] %></p>
+        </div>
+        <div class="card-body">
+          <%= link_to "Delete", bookmark_path(bookmark), method: :delete %>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <%= link_to "Delete", bookmark_path(bookmark), method: :delete %>
-    </div>
+    <% end %>
   </div>
-  <% end %>
-<% end %>
+</div>
