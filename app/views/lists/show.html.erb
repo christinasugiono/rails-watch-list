@@ -1,16 +1,25 @@
-<%= render 'banner', title: @list.name %>
+<div class="banner mb-4" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(<%= @list.photo.attached? ? cl_image_path(@list.photo.key) : 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' %>);">
+  <div class="container">
+    <h1><%= @list.name %></h1>
+  </div>
+</div>
 
 <div class="container">
-  <%= link_to "Add a movie", new_list_bookmark_path(@list) %>
-  <hr>
+  <div class="d-flex justify-content-between">
+    <h2>All bookmarks</h2>
+    <%= link_to "Add a bookmark", new_list_bookmark_path(@list), class: "btn btn-outline-success mb-4" %>
+  </div>
   <div class="row">
     <% @list.bookmarks.each do |bookmark| %>
-    <div class="col-12 col-md-4 col-lg-3">
-      <div class="card" style="width: 18rem;">
-        <%= image_tag bookmark.movie.poster_url %>
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+      <div class="card mb-3" style="width: 18rem;">
+        <%= image_tag bookmark.movie.poster_url, class: "card-img-top" %>
         <div class="card-body">
           <h5 class="card-title"><%= bookmark.movie.title %></h5>
+          <p class="card-text"><i class="fas fa-star text-warning"></i> <%= bookmark.movie.rating %></p>
           <p class="card-text"><%= bookmark.movie.overview[0, 150] %></p>
+          <hr>
+          <p class="card-text"><em>"<%= bookmark.comment %>"</em></p>
         </div>
         <div class="card-body">
           <%= link_to "Delete", bookmark_path(bookmark), method: :delete %>
